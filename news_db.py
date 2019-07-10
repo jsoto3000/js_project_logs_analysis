@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import psycopg2
 
 DBNAME = "news"
@@ -23,12 +25,12 @@ query_2 = ("SELECT authors.name, count(*) as views\n"
 request_3 = "On which days did more than 1% of the requests lead to errors?"
 
 query_3 = ("SELECT day, perc from("
-          "SELECT day, round((sum(requests)/(select count(*) from log where "
-          "substring(cast(log.time as text), 0, 11) = day) * 100), 2) as "
-          "perc from (select substring(cast(log.time as text), 0, 11) as day, "
-          "count(*) as requests from log where status like '%404%' group by day)"
-          "as log_percentage group by day order by perc desc) as final_query "
-          "where perc >= 1")
+           "SELECT day, round((sum(req)/(select count(*) from log where "
+           "substring(cast(log.time as text),0,11) = day) * 100),2) as "
+           "perc from (select substring(cast(log.time as text),0,11) as day, "
+           "count(*) as req from log where status like '%404%' group by day)"
+           "as log_percentage group by day order by perc desc) as final_query "
+           "where perc >= 1")
 
 # Connect to the database and feed query to extract results
 
